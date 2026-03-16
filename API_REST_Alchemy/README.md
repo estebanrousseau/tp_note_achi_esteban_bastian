@@ -4,6 +4,7 @@ Dans une venv (créée avec ```virtualenv -p python3 venv``` puis activée avec 
 - ```pip install flask``` 
 - ```pip install flask-sqlalchemy```
 - ```pip install python-dotenv```
+- ```pip install flask-cors```
 
 ## Lancement de l'API
 Une fois dans la venv, effectuer un ```flask syncdb``` à la racine du projet afin de créer la base de données et/ou de remettre à 0 les données affichées

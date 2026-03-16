@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 
 def mkpath(p):
@@ -12,3 +13,4 @@ app.config['SQLALCHEMY_DATABASE_URI'] = ('sqlite:///'+ mkpath('../todo.db'))
 app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
+cors = CORS(app, ressources = {r"/todo/api/v1.0/*": {"origins": "*"}})
