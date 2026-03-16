@@ -1,5 +1,35 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Questionnaire from './components/Questionnaire.vue'
+import Questions from './components/Questions.vue'
+import TypeQuestions from './components/TypeQuestions.vue'
+
+let data = {
+    todos: [
+      { id: 1, text: 'Faire les courses', checked: true },
+      { id: 2, text: 'Apprendre REST', checked: false }
+    ],
+    title: 'Mes questionnaires',
+    newItem: ''
+};
+
+
+export default {
+  data() {
+    return data;
+  }
+}  
+  
+  
+
+
+
+
+
+
+
+
+
+
 </script>
 
 <template>
