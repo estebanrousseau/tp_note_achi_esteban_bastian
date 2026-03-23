@@ -88,5 +88,6 @@ let data = {
         <button @click="addQuestionnaire" class="btn btn-default" type="button">Ajouter</button>
       </span>
     </div>
+    
   </div>
 </template>
