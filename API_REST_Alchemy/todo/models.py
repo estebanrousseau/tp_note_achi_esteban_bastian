@@ -25,7 +25,6 @@ class Question(db.Model):
 class QuestionOuverte(Question):
     __tablename__ = 'QuestionOuverte'
     no = db.Column(db.Integer, db.ForeignKey('Question.no'), primary_key=True)
-    enonce = db.Column(db.String(255))
     questionnaire_id = db.Column(db.Integer, db.ForeignKey("Questionnaire.id"))
     champ_reponse = db.Column(db.String(255))
 
@@ -47,7 +46,6 @@ class QuestionOuverte(Question):
 class QuestionChoixMultiple(Question):
     __tablename__ = 'QuestionChoixMultiple'
     no = db.Column(db.Integer, db.ForeignKey('Question.no'), primary_key=True)
-    enonce = db.Column(db.String(255))
     questionnaire_id = db.Column(db.Integer, db.ForeignKey("Questionnaire.id"))
     choix_un = db.Column(db.String(120))
     choix_deux = db.Column(db.String(120))

@@ -1,74 +1,82 @@
 <script>
 
-import TodoItem from './components/Questionnaire.vue';
+  //import Questionnaire from './components/Questionnaire.vue';
 
-let data = {
-  todos: [{ text: 'Faire les courses', checked: true, id:1 }, { text: 'Apprendre REST', checked: false, id:2 }],
-  title: 'Mes tâches',
-  newItem: ''
-  // newText: ''
-};
+  const API_BASE = 'http://localhost:5000';
 
-export default {
+  export default {
+    data() {
+      return {
+        questionnaires: [],
+        title: 'Mes questionnaires',
+        newQuestion: ''
+      };
+    },
+    async created() {
+      await this.fetchQuestionnaires();
+    },
+    methods: {
+      async fetchQuestionnaires() {
+        const url = `${API_BASE}/quizz/api/v1.0/questionnaires`;
 
-  data() {
-    return data;
-  },
-  methods: {
-    addItem: function () {
-      let text = this.newItem.trim();
-      if (text) {
-        if(this.todos.length == 0){
-          this.todos.push({
-            text: text,
-            checked: false,
-            id: 1
-          });
+        try {
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`Statut de réponse : ${response.status}`);
+          }
+
+          const json = await response.json();
+          this.questionnaires = json.global_questionnaire || [];
+
+        } catch (error) {
+          console.error(error);
         }
-        else{
-          this.todos.push({
-            text: text,
-            checked: false,
-            id: this.todos[this.todos.length -1].id + 1 ?? 1
-          });
-        }
-        this.newItem = '';
+      },
+
+      addQuestionnaire() {
+        this.questionnaires.push({
+          nom: this.newQuestion,
+          question: {},
+          uri: `${API_BASE}/quizz/api/v1.0/questionnaires/${this.questionnaires.length + 1}`
+        });
+      },
+
+      removeQuestionnaire($event) {
+        this.questionnaires = this.questionnaires.filter(q => q.uri !== $event.questionnaire.uri);
+      },
+
+      modifierQuestionnaire($event) {
+        if($event.change != ""){
+        let index = this.questionnaires.indexOf($event.questionnaire);
+        this.questionnaires.at(index).nom = $event.modif;
       }
-    },
-    supprItem($event){
-      let obj = this.todos.indexOf($event.task);
-      this.todos.splice(obj, 1);
-    },
-    modifItem($event){
-      
+      }
     }
-  },
-  components: { TodoItem }
-}
+    //components: { Questionnaire }
+  };
 </script>
 
 <template>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <h2>{{ title }}</h2>
-  <ol>
-  <TodoItem
-    v-for="item of todos"
-    :todo="item"
-    :key="item.id"
-    @remove="supprItem"
-    @update="modifItem">
-  </TodoItem>
-  </ol>
-  <div class="input-group">
-    <input v-model="newItem" 
-     @keyup.enter="addItem" 
-     placeholder="Ajouter une tache à la liste" 
-    type="text"
-    class="form-control">
-    <span class="input-group-btn">
-      <button @click="addItem" 
-      class="btn btn-default" 
-      type="button">Ajouter</button>
-    </span>
+
+  <div class="container">
+    <h2>{{ title }}</h2>
+    <ol>
+
+       <!-- <Questionnaire
+        v-for="questionnaire of questionnaires"
+        :questionnaire="questionnaire"
+        @delete="removeQuestionnaire"
+        @modifier="modifierQuestionnaire"
+        >
+       </Questionnaire>  -->
+
+    </ol>
+    <div class="input-group">
+      <input v-model="newQuestion" @keyup.enter="addQuestionnaire" placeholder="Ajouter une question" type="text" class="form-control">
+      <span class="input-group-btn">
+        <button @click="addQuestionnaire" class="btn btn-default" type="button">Ajouter</button>
+      </span>
+    </div>
   </div>
 </template>
