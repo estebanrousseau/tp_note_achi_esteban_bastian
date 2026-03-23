@@ -2,14 +2,8 @@
 
 import Questions from './Questions.vue';
 
-let data = {
-    modification : ''
-};
 
 export default{
-    data() {
-        return data;
-    },
     props: {
         questionnaire : Object
     },
@@ -18,7 +12,8 @@ export default{
 
         },
         modifier : function() { // Modifier questionnaire
-            this.$emit('modifier',{questionnaire: this.questionnaire, change: this.modification});
+            // console.log(this.modification)
+            this.$emit('modifier',{questionnaire: this.questionnaire});
         },
         supprimer : function() { // Supprimer questionnaire
             this.$emit('delete',{questionnaire: this.questionnaire});
@@ -31,6 +26,8 @@ export default{
 <template>
     <li>
         <label>{{questionnaire.nom}}
+        
+
             <button type="button" @click="modifier">Modifier</button>
             <button type="button" @click="supprimer">Supprimer</button>
         </label>
