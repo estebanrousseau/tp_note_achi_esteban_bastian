@@ -1,6 +1,6 @@
 <script>
 
-  //import Questionnaire from './components/Questionnaire.vue';
+  import Questionnaire from './components/Questionnaire.vue';
 
   const API_BASE = 'http://localhost:5000';
 
@@ -52,8 +52,8 @@
         this.questionnaires.at(index).nom = $event.modif;
       }
       }
-    }
-    //components: { Questionnaire }
+    },
+    components: { Questionnaire }
   };
 </script>
 
@@ -63,13 +63,13 @@
     <h2>{{ title }}</h2>
     <ol>
 
-       <!-- <Questionnaire
+       <Questionnaire
         v-for="questionnaire of questionnaires"
         :questionnaire="questionnaire"
         @delete="removeQuestionnaire"
         @modifier="modifierQuestionnaire"
         >
-       </Questionnaire>  -->
+       </Questionnaire> 
 
     </ol>
     <div class="input-group">
