@@ -1,30 +1,83 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+
+<script>
+
+  //import Questionnaire from './components/Questionnaire.vue';
+
+  const API_BASE = 'http://localhost:5000';
+
+  export default {
+    data() {
+      return {
+        questionnaires: [],
+        title: 'Mes questionnaires',
+        newQuestion: ''
+      };
+    },
+    async created() {
+      await this.fetchQuestionnaires();
+    },
+    methods: {
+      async fetchQuestionnaires() {
+        const url = `${API_BASE}/quizz/api/v1.0/questionnaires`;
+
+        try {
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`Statut de réponse : ${response.status}`);
+          }
+
+          const json = await response.json();
+          this.questionnaires = json.global_questionnaire || [];
+
+        } catch (error) {
+          console.error(error);
+        }
+      },
+
+      addQuestionnaire() {
+        this.questionnaires.push({
+          nom: this.newQuestion,
+          question: {},
+          uri: `${API_BASE}/quizz/api/v1.0/questionnaires/${this.questionnaires.length + 1}`
+        });
+      },
+
+      removeQuestionnaire($event) {
+        this.questionnaires = this.questionnaires.filter(q => q.uri !== $event.questionnaire.uri);
+      },
+
+      modifierQuestionnaire($event) {
+        if($event.change != ""){
+        let index = this.questionnaires.indexOf($event.questionnaire);
+        this.questionnaires.at(index).nom = $event.modif;
+      }
+      }
+    }
+    //components: { Questionnaire }
+  };
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+  <div class="container">
+    <h2>{{ title }}</h2>
+    <ol>
+
+       <!-- <Questionnaire
+        v-for="questionnaire of questionnaires"
+        :questionnaire="questionnaire"
+        @delete="removeQuestionnaire"
+        @modifier="modifierQuestionnaire"
+        >
+       </Questionnaire>  -->
+
+    </ol>
+    <div class="input-group">
+      <input v-model="newQuestion" @keyup.enter="addQuestionnaire" placeholder="Ajouter une question" type="text" class="form-control">
+      <span class="input-group-btn">
+        <button @click="addQuestionnaire" class="btn btn-default" type="button">Ajouter</button>
+      </span>
+    </div>
+  </div>
+</template>
