@@ -4,6 +4,13 @@
 
   const API_BASE = 'http://localhost:5000';
 
+
+
+let data = {
+  modification : ''
+};
+
+
   export default {
     data() {
       return {
@@ -47,9 +54,11 @@
       },
 
       modifierQuestionnaire($event) {
-        if($event.change != ""){
+        // console.log($event.questionnaire);
+        // console.log($event.modification)
+        if(this.modification != ""){
         let index = this.questionnaires.indexOf($event.questionnaire);
-        this.questionnaires.at(index).nom = $event.modif;
+        this.questionnaires.at(index).nom = this.modification;
       }
       }
     },
@@ -73,6 +82,7 @@
 
     </ol>
     <div class="input-group">
+      <input v-model="modification" placeholder="modifier une question" type="text" class="form-control">
       <input v-model="newQuestion" @keyup.enter="addQuestionnaire" placeholder="Ajouter une question" type="text" class="form-control">
       <span class="input-group-btn">
         <button @click="addQuestionnaire" class="btn btn-default" type="button">Ajouter</button>
