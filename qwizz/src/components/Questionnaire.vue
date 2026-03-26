@@ -26,7 +26,7 @@ export default{
     emits : ['post', 'modifier', 'delete', 'select_questionnaire'],
     components: { Questions }
 }
-</script>7
+</script>
 
 <template>
     <!-- <p>{{ questionnaire }}</p> -->
