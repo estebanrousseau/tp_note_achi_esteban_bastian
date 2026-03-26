@@ -19,23 +19,23 @@ export default{
             this.$emit('delete',{questionnaire: this.questionnaire});
         }
     },
-    emits : ['post', 'modifier', 'delete']
+    emits : ['post', 'modifier', 'delete'],
+    components: { Questions }
 }
 </script>
 
 <template>
+    <!-- <p>{{ questionnaire }}</p> -->
     <li>
         <label>{{questionnaire.nom}}
-        
-
             <button type="button" @click="modifier">Modifier</button>
             <button type="button" @click="supprimer">Supprimer</button>
         </label>
     </li>
 
     <Questions
-        v-for="question of questionnaire"
-        :todo="question">
+        v-for="question of questionnaire.questions"
+        :question="question">
                 <!-- @remove="supprItem", @update="modifItem" -->
     </Questions>
 </template>
