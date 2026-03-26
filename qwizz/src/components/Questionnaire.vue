@@ -17,17 +17,22 @@ export default{
         },
         supprimer : function() { // Supprimer questionnaire
             this.$emit('delete',{questionnaire: this.questionnaire});
+        },
+        select_questionnaire: function(){
+            this.$emit('select_questionnaire', {questionnaire: this.questionnaire})
         }
+
     },
-    emits : ['post', 'modifier', 'delete'],
+    emits : ['post', 'modifier', 'delete', 'select_questionnaire'],
     components: { Questions }
 }
-</script>
+</script>7
 
 <template>
     <!-- <p>{{ questionnaire }}</p> -->
     <li>
-        <label>{{questionnaire.nom}}
+        <p @click="select_questionnaire">{{questionnaire.nom}}</p>
+        <label >
             <button type="button" @click="modifier">Modifier</button>
             <button type="button" @click="supprimer">Supprimer</button>
         </label>
