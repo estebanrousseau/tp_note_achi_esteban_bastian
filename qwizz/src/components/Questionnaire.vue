@@ -78,7 +78,6 @@ export default{
 <template>
     <!-- <p>{{ questionnaire }}</p> -->
     <li>
-        <p>{{ questionnaire.questions }}</p>
         <label v-if="change == false">{{questionnaire.nom}}</label>
         <input 
             v-else-if="change == true"
