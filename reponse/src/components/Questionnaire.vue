@@ -13,120 +13,45 @@ export default{
             enonce: '',
             choix_un: '',
             choix_deux: '',
-            reponse: ''
+            reponse: '',
+            score_total: 0,
+            score_instant: 0,
+            score_visible: false
         };
     },
     props: {
         questionnaire : Object
     },
     methods:{
-        ajouter : function() { // Ajouter question
-            if(this.type == 1){
-                this.questionnaire.questions.push({
-                    enonce: this.enonce,
-                    champ_reponse: this.reponse,
-                    no: 1,
-                });
-                this.enonce = ''
-                this.reponse = ''
-            }
-            if(this.type == 2){
-                this.questionnaire["questions"].push({
-                    enonce: this.enonce,
-                    choix_un: this.choix_un,
-                    choix_deux: this.choix_deux,
-                    no: 1,
-                    reponse: this.reponse,
-                });
-                this.enonce = ''
-                this.choix_un = ''
-                this.choix_deux = ''
-                this.reponse = ''
-            }
-            this.type = ''
-            this.btn_ajout_clic()
+        chgm_points : function($event) {
+            
         },
-        modifier : function() { // Modifier questionnaire
-            // console.log(this.modification)
-            this.$emit('modifier',{questionnaire: this.questionnaire});
-        },
-        supprimer : function() { // Supprimer questionnaire
-            this.$emit('delete',{questionnaire: this.questionnaire});
-        },
-        removeQuestion($event) {
-            this.questionnaire.questions = this.questionnaire.questions.filter((questions) => questions != $event.question);
-        },
-        btn_edit_clic : function() {
-            this.change = true
-        },
-        btn_save_clic : function() {
-            this.change = false
-        },
-        btn_ajout_clic : function() {
-            if (this.ajout == false)
-                this.ajout = true
-            else
-                this.ajout = false
+        valide_questionnaire : function() {
+            console.log(this.questionnaire)
+            this.score_instant = this.score_total;
+            this.score_visible = true;
         }
-
     },
-    emits : ['post', 'modifier', 'delete', 'select_questionnaire'],
+    emits : [],
     components: { Questions }
 }
 </script>
 
 <template>
+    
     <!-- <p>{{ questionnaire }}</p> -->
     <li>
-        <label v-if="change == false">{{questionnaire.nom}}</label>
-        <input 
-            v-else-if="change == true"
-            v-model="questionnaire.nom" 
-            placeholder="Nom du questionnaire" 
-            type="text">
-
-        <br v-if="ajout">
-        <label v-if="ajout"><strong>1</strong> (Question ouverte) ou <strong>2</strong> (Question a choix multiple)</label>
-        <input 
-            v-if="ajout"
-            v-model="this.type" 
-            placeholder="Type de question" 
-            type="text">
-
-
-        <input 
-            v-if="ajout && type == 1 | type == 2"
-            v-model="this.enonce" 
-            placeholder="Enonce" 
-            type="text">
-        <input 
-            v-if="ajout && type == 2"
-            v-model="this.choix_un" 
-            placeholder="Choix un" 
-            type="text">
-        <input 
-            v-if="ajout && type == 2"
-            v-model="this.choix_deux" 
-            placeholder="Choix deux" 
-            type="text">
-        <label v-if="ajout && type == 2">Choix de reponse : 1 ou 2</label>
-        <input 
-            v-if="ajout && type == 1 | type == 2"
-            v-model="this.reponse" 
-            placeholder="Reponse" 
-            type="text">
-
-        <button v-if="!(ajout)" type="button" @click="btn_ajout_clic">Nouvelle question</button>
-        <button v-if="ajout" type="button" @click="ajouter">Ajouter</button>
-        <button v-if="change == false" type="button" @click="btn_edit_clic">Modifier</button>
-        <button v-if="change == true" type="button" @click="btn_save_clic">Enregistrer</button>
-        <button type="button" @click="supprimer">Supprimer</button>
+        <label >{{questionnaire.nom}}</label>
     </li>
 
     <Questions
         v-for="question of questionnaire.questions"
         :question="question"
-        @delete="removeQuestion">
+        @points="chgm_points">
                 <!-- @remove="supprItem", @update="modifItem" -->
     </Questions>
+    <div v-if="score_visible == true">
+        <p>Score : {{ score_instant }} / {{ questionnaire.questions }}</p>
+    </div>
+    <button  type="button" @click="valide_questionnaire">Valider</button>
 </template>
