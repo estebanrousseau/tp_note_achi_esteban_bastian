@@ -29,11 +29,11 @@ export default{
         btn_save_clic : function() {
             this.change = false
         },
-        modifier : function() { // Modifier question
+        // modifier : function() { // Modifier question
 
-        },
+        // },
         supprimer : function() { // Supprimer question
-
+            this.$emit('delete',{question: this.question});
         }
     },
     emits : ['put', 'delete']

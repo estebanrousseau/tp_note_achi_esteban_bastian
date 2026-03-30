@@ -89,7 +89,7 @@ let data = {
 
     </ol>
     <div class="input-group">
-      <input v-model="modification" placeholder="modifier un questionnaire" type="text" class="form-control">
+      <!-- <input v-model="modification" placeholder="modifier un questionnaire" type="text" class="form-control"> -->
       <input v-model="newQuestion" @keyup.enter="addQuestionnaire" placeholder="Ajouter un questionnaire" type="text" class="form-control">
       <span class="input-group-btn">
         <button @click="addQuestionnaire" class="btn btn-default" type="button">Ajouter</button>
