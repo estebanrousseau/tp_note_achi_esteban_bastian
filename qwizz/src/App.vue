@@ -7,7 +7,8 @@
 
 
 let data = {
-  modification : ''
+  modification : '',
+  questionnaire_actuel: null
 };
 
 
@@ -59,7 +60,12 @@ let data = {
         if(this.modification != ""){
         let index = this.questionnaires.indexOf($event.questionnaire);
         this.questionnaires.at(index).nom = this.modification;
-      }
+        }
+      },
+
+      chgm_questionnaire($event){
+        this.questionnaire_actuel = $event.questionnaire
+        console.log(this.questionnaire_actuel)
       }
     },
     components: { Questionnaire }
@@ -77,6 +83,7 @@ let data = {
         :questionnaire="questionnaire"
         @delete="removeQuestionnaire"
         @modifier="modifierQuestionnaire"
+        @select_questionnaire="chgm_questionnaire"
         >
        </Questionnaire> 
 

@@ -68,8 +68,9 @@ export default{
             else
                 this.ajout = false
         }
+
     },
-    emits : ['post', 'modifier', 'delete'],
+    emits : ['post', 'modifier', 'delete', 'select_questionnaire'],
     components: { Questions }
 }
 </script>
