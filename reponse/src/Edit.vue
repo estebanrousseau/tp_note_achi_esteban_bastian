@@ -42,26 +42,46 @@ let data = {
         }
       },
 
-      addQuestionnaire() {
-        this.questionnaires.push({
+      async addQuestionnaire() {
+        const url = `${API_BASE}/quizz/api/v1.0/questionnaires`;
+        let data = {
           nom: this.newQuestion,
           question: {},
           uri: `${API_BASE}/quizz/api/v1.0/questionnaires/${this.questionnaires.length + 1}`
-        });
+        }
+        this.questionnaires.push(data);
+        const response = await fetch(url, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
       },
 
       removeQuestionnaire($event) {
         this.questionnaires = this.questionnaires.filter(q => q.uri !== $event.questionnaire.uri);
       },
 
-      modifierQuestionnaire($event) {
-        // console.log($event.questionnaire);
-        // console.log($event.modification)
+      async modifierQuestionnaire($event) {
         if(this.modification != ""){
-        let index = this.questionnaires.indexOf($event.questionnaire);
-        this.questionnaires.at(index).nom = this.modification;
+          const url = `${API_BASE}/quizz/api/v1.0/questionnaires`;
+          let index = this.questionnaires.indexOf($event.questionnaire);
+
+          let data = {
+            nom: this.modification,
+            question: this.questionnaires.at(index).question,
+            uri: this.questionnaires.at(index).uri
+          }
+
+          this.questionnaires.at(index).nom = this.modification;
+
+          const response = await fetch(`${url}/${index}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
         }
       },
+
       part_jeu() {
         this.$router.push('/');
       },
