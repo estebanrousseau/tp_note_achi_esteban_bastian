@@ -1,6 +1,6 @@
 <script>
 
-import Questions from './Questions.vue';
+import Questions from './QuestionsJeu.vue';
 
 export default{
     data() {
