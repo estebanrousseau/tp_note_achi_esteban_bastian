@@ -83,5 +83,5 @@ export default{
     <div v-if="score_visible == true">
         <p>Score : {{ score_instant }} / {{ totalPossiblePoints }}</p>
     </div>
-    <button type="button" @click="valide_questionnaire">Valider</button>
+    <button type="button" @click="valide_questionnaire">Valider le questionnaire</button>
 </template>
