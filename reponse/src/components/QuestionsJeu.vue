@@ -71,6 +71,6 @@ export default{
                 </label>
             </div>
         </div>
-        <button @click="envois_points" type="button">Valider</button>
+        <button @click="envois_points" type="button">Valider le question</button>
     </div>
 </template>
